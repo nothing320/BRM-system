@@ -16,7 +16,7 @@
     
     // Page ke upar ek chota sa green bar dikhayenge
     const testBar = document.createElement('div');
-    testBar.innerHTML = '✅ USMAN CONNECTION ACTIVE';
+    testBar.innerHTML = '✅ USMAN CONNECTION done';
     testBar.style.cssText = `
         position: fixed; top: 0; left: 0; width: 100%; 
         background: #4caf50; color: white; text-align: center; 
