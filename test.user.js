@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Usman Pro - Surgical Lock v9.3 (Trial 16 Only)
+// @name         Usman Pro - Surgical Lock v9.3 (Trial 16 Only) 
 // @namespace    http://tampermonkey.net/
 // @version      9.3
 // @description  Strictly locked to mt5trial16 terminal
