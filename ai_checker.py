@@ -1,5 +1,5 @@
 import os
-import sys
+import sys 
 import google.generativeai as genai
 
 # Secret se API key uthana
