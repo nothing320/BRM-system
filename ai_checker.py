@@ -1,10 +1,10 @@
 import os
 import sys
-from google import genai # Nayi library
+from google import genai
 
 def verify_discipline():
     try:
-        # API Key uthana
+        # Secret se API key uthana
         client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
         
         with open('test.user.js', 'r') as f:
@@ -24,9 +24,9 @@ def verify_discipline():
         {code}
         """
 
-        # Naya method call
+        # Stable model for Free Tier
         response = client.models.generate_content(
-            model="gemini-1.5-flash", # More stable for Free Tier, 
+            model="gemini-1.5-flash", 
             contents=prompt
         )
         
@@ -36,11 +36,11 @@ def verify_discipline():
             print("❌ AI GUARD: Discipline Violation! Merge blocked.")
             sys.exit(1)
         else:
-            print("✅ AI GUARD: Discipline Approved. Everything looks safe.")
+            print("✅ AI GUARD: Discipline Approved.")
 
     except Exception as e:
         print(f"⚠️ Error: {str(e)}")
-        # Safety first: Agar AI fail ho jaye toh merge block rakhen
+        # Safety: Agar AI down ho ya limit khatam ho, toh block rakhen
         sys.exit(1)
 
 if __name__ == "__main__":
