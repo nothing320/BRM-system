@@ -26,7 +26,7 @@ def verify_discipline():
 
         # Naya method call
         response = client.models.generate_content(
-            model="gemini-2.0-flash", # Latest stable model
+            model="gemini-1.5-flash", # More stable for Free Tier, 
             contents=prompt
         )
         
