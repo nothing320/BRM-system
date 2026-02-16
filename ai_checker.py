@@ -1,18 +1,15 @@
 import os
 import sys
-import google.generativeai as genai
-
-# Secret se API key uthana
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+from google import genai # Nayi library
 
 def verify_discipline():
     try:
+        # API Key uthana
+        client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+        
         with open('test.user.js', 'r') as f:
             code = f.read()
 
-        # Stable model version use kar rahe hain
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
-        
         prompt = f"""
         You are Usman's Risk Manager. 
         Analyze this code and ensure it STRICTLY follows these rules:
@@ -27,18 +24,23 @@ def verify_discipline():
         {code}
         """
 
-        response = model.generate_content(prompt)
+        # Naya method call
+        response = client.models.generate_content(
+            model="gemini-2.0-flash", # Latest stable model
+            contents=prompt
+        )
+        
         verdict = response.text.strip()
 
         if "REJECTED" in verdict:
             print("❌ AI GUARD: Discipline Violation! Merge blocked.")
             sys.exit(1)
         else:
-            print("✅ AI GUARD: Discipline Approved.")
+            print("✅ AI GUARD: Discipline Approved. Everything looks safe.")
 
     except Exception as e:
         print(f"⚠️ Error: {str(e)}")
-        # Agar AI down ho toh safety ke liye block rakhen
+        # Safety first: Agar AI fail ho jaye toh merge block rakhen
         sys.exit(1)
 
 if __name__ == "__main__":
