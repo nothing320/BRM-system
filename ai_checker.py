@@ -4,7 +4,7 @@ from datetime import datetime
 def verify_time_lock():
     # 🔓 Yahan wo date likhein jab aap lock kholna chahte hain
     # (Year, Month, Day)
-    unlock_date = datetime(2026, 3, 2) 
+    unlock_date = datetime(2026, 1, 1) 
     
     current_date = datetime.now()
 
