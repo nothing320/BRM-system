@@ -1,32 +1,22 @@
 import sys
+from datetime import datetime
 
-def verify_discipline():
-    try:
-        with open('test.user.js', 'r') as f:
-            code = f.read()
+def verify_time_lock():
+    # 🔓 Yahan wo date likhein jab aap lock kholna chahte hain
+    # (Year, Month, Day)
+    unlock_date = datetime(2026, 3, 2) 
+    
+    current_date = datetime.now()
 
-        # Rule 1: Trial 16 URL check
-        if "mt5trial16.exwebterm.com" not in code:
-            print("❌ DISCIPLINE ERROR: Target URL changed!")
-            sys.exit(1)
-
-        # Rule 2: Trade buttons (Naye aur purane dono names check karega)
-        trade_indicators = ["button.button-trade", "[title=\"Trade\"]", "trade-button", "svelte-liwf8ix"]
-        if not any(x in code for x in trade_indicators) or "display: none" not in code:
-            print("❌ DISCIPLINE ERROR: Trade buttons are not locked!")
-            sys.exit(1)
-
-        # Rule 3: Toolbox/Panel check
-        toolbox_indicators = [".toolbox", "terminal-panel", "bottom-panel"]
-        if not any(x in code for x in toolbox_indicators):
-            print("❌ DISCIPLINE ERROR: Toolbox/Panel check missing!")
-            sys.exit(1)
-
-        print("✅ DISCIPLINE APPROVED: Usman's Surgical Lock is Active.")
-        
-    except Exception as e:
-        print(f"⚠️ Error: {str(e)}")
-        sys.exit(1)
+    if current_date < unlock_date:
+        days_left = (unlock_date - current_date).days
+        print(f"❌ SURGICAL LOCK ACTIVE!")
+        print(f"Usman bhai, abhi {days_left} din baqi hain. Trading discipline follow karein.")
+        print(f"Unlock Date: {unlock_date.strftime('%d %B %Y')}")
+        sys.exit(1) # Ye merge ko block kar dega
+    else:
+        print("✅ TIME LOCK EXPIRED: Aap ab edit kar sakte hain.")
+        sys.exit(0) # Ye merge allow kar dega
 
 if __name__ == "__main__":
-    verify_discipline()
+    verify_time_lock()
