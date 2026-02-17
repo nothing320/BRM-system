@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Usman Pro - Final Discipline v11.0
+// @name         Usman Pro - Strict 2-trade limit v11.0
 // @namespace    http://tampermonkey.net/
 // @version      11.1
 // @description  Strict 2-trade limit, No Reset Button, Global Match
