@@ -1,0 +1,25 @@
+(function() {
+    'use strict';
+
+    // URL Check
+    const currentURL = window.location.href;
+
+    // 1. Agar ye "Ask to Install" wala page hai (ask.html), toh block MAT karo
+    if (currentURL.includes("ask.html")) {
+        return; 
+    }
+
+    // 2. Agar ye Dashboard hai (nav=dashboard), toh block MAT karo
+    if (currentURL.includes("nav=dashboard")) {
+        return;
+    }
+
+    // 3. Lekin agar aap Settings ya Editor kholne ki koshish karein (options.html)
+    // Aur usmein dashboard na ho, toh phir block kar do
+    if (currentURL.includes("options.html") && !currentURL.includes("nav=dashboard")) {
+        document.body.innerHTML = `
+            <div style="background: black; color: red; height: 100vh; display: flex; align-items: center; justify-content: center; font-family: sans-serif; text-align: center;">
+                <h1>🛡️ EDITOR LOCKED <br> Usman bhai, scripts edit karna mana hai!</h1>
+            </div>`;
+    }
+})();
