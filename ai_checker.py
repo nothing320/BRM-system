@@ -18,7 +18,7 @@ def get_internet_time():
 
 def verify_discipline():
     # 🔒 TEST LOCK: Is date ko aaj se aage rakha hai taake lock show ho
-    unlock_date = datetime(2026, 12, 31) 
+    unlock_date = datetime(2026, 1, 1) 
     
     current_date = get_internet_time()
 
