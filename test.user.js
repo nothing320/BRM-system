@@ -4,7 +4,7 @@
 // @version      9.3
 // @description  Strictly locked to mt5trial16 terminal
 // @author       Usman
-// @match        https://mt5trial16.exwebterm.com/terminal?*
+// @match        https://mt5trial16.exwebterm.com/terminal?* 
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
