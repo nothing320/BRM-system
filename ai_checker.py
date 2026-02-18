@@ -16,7 +16,7 @@ def get_internet_time():
 
 def verify_discipline():
     # 🔓 YAHAN APNI UNLOCK DATE LIKHEIN (Year, Month, Day)
-    unlock_date = datetime(2026, 1, 1) 
+    unlock_date = datetime(2026, 2, 19) 
     
     print("🔍 System: Verifying discipline status via Internet...")
     current_date = get_internet_time()
