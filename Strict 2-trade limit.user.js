@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         Usman Pro - Strict 2-trade limit v11.3
+// @name         Usman Pro - Strict 2-trade limit
 // @namespace    http://tampermonkey.net/
-// @version      11.3
-// @description  Full Surgical Lock: 2 Trades, Orders Section, & Auto-Update
+// @version      11.4
+// @description  Strict 2-trade limit with Svelte Selector Block
 // @author       Usman
-// @match        *://*/*
+// @match        *://*.exness.com/*
+// @match        *://*.exwebterm.com/*
 // @updateURL    https://raw.githubusercontent.com/nothing320/BRM-system/main/final_discipline.user.js
 // @downloadURL  https://raw.githubusercontent.com/nothing320/BRM-system/main/final_discipline.user.js
 // @grant        none
@@ -14,67 +15,54 @@
 (function() {
     'use strict';
 
-    // 1. Logic: Date aur Trade Counter
+    // 1. Memory Logic
     const today = new Date().toLocaleDateString();
     let tradeData = JSON.parse(localStorage.getItem('usman_trade_logic')) || { date: today, count: 0 };
 
-    // Agar din badal gaya toh counter reset
     if (tradeData.date !== today) {
         tradeData = { date: today, count: 0 };
         localStorage.setItem('usman_trade_logic', JSON.stringify(tradeData));
     }
 
-    // 2. CSS Blockers (Jab 2 trades ho jayein)
+    // 2. CSS Shield (Usman Bhai's Specific Selector Added)
     const style = document.createElement('style');
     style.innerHTML = `
         ${tradeData.count >= 2 ? `
-            /* Buy/Sell Buttons Block */
+            /* Aapka bataya hua specific selector */
+            body > div.layout.svelte-vce879 > div.left-panel.svelte-nipgo6 > div.layout.svelte-b7mtja.right > div.wrap.svelte-nipgo6 > div.wrapper.svelte-1mnv5a8,
+            
+            /* General Buttons aur Trading Panels */
             button.trade-button.svelte-ailjot,
             .footer-row.svelte-1325j3e button,
             [data-test="trade-button"],
-            .trading-panel-footer,
-
-            /* Orders aur Limits Section Block */
-            .orders-container.svelte-1325j3e,
-            .limit-orders.svelte-ailjot,
-            [data-test="pending-orders-section"],
-            .tab-panel-container.svelte-1325j3e, /* Orders tab content */
-            
-            /* Additional Selectors for safety */
-            button[class*="buy"], 
-            button[class*="sell"] {
+            select.svelte-1jw7y3y {
                 display: none !important;
                 pointer-events: none !important;
-                visibility: hidden !important;
             }
 
-            /* Red Alert Message */
             body::after {
-                content: "USMAN BHAI: 2 TRADES COMPLETED! SYSTEM LOCKED UNTIL TOMORROW.";
-                position: fixed; top: 0; left: 0; width: 100%; height: 50px;
-                background: #ff0000; color: white; text-align: center;
-                line-height: 50px; z-index: 9999999; font-weight: bold; font-size: 20px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+                content: "USMAN BHAI: 2 TRADES DONE! LOCK ACTIVE UNTIL TOMORROW.";
+                position: fixed; top: 0; left: 0; width: 100%;
+                background: red; color: white; text-align: center;
+                z-index: 9999999; padding: 15px; font-weight: bold; font-size: 20px;
             }
         ` : ''}
     `;
     document.documentElement.appendChild(style);
 
-    // 3. Click Detection (Sirf Buy/Sell detect karne ke liye)
+    // 3. Smart Click Detection
     window.addEventListener('click', function(e) {
         const btn = e.target.closest('button');
 
         if (btn && tradeData.count < 2) {
-            const text = btn.innerText.toLowerCase();
-            // Sirf Buy aur Sell button par counter chalega
-            if (text.includes('buy') || text.includes('sell')) {
+            const btnText = btn.innerText.toLowerCase();
+            if (btnText.includes('buy') || btnText.includes('sell')) {
                 tradeData.count++;
                 localStorage.setItem('usman_trade_logic', JSON.stringify(tradeData));
 
-                // 2 trades hote hi page reload taake CSS lock active ho jaye
                 if (tradeData.count >= 2) {
                     setTimeout(() => { 
-                        alert("Usman Bhai: 2 Trades Done! System is Locking...");
+                        alert("Surgical Lock Activated! 2 Trades Done.");
                         location.reload(); 
                     }, 1000);
                 }
