@@ -1,14 +1,25 @@
 name: AI-Discipline-Guard
-on: [pull_request]
+
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   verify-code:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Install Dependencies
+        run: pip install requests
+
       - name: Run Discipline Check
         run: python ai_checker.py
