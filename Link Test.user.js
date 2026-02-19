@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Usman Pro - Link Test
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Simple update test
 // @author       Usman
 // @match        *://*.metatrader5.com/*
@@ -12,5 +12,5 @@
 // ==/UserScript==
 
 (function() {
-    alert("Usman Bhai: Version 1.0 Active!");
+    alert("Usman Bhai: Version 1.1 Active!");
 })();
