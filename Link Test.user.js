@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Usman Pro - Final Test
+// @name         Usman Pro - Link Test
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  Color Test for Update Logic
 // @author       Usman
 // @match        *://*.metatrader5.com/*
