@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Usman Pro - Link Test
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  Color Test for Update Logic
 // @author       Usman
 // @match        *://*.metatrader5.com/*
@@ -14,6 +14,6 @@
 (function() {
     'use strict';
     // Test ke liye: Page ka background halka neela (light blue) ho jayega
-    document.body.style.backgroundColor = "lightblue";
+    document.body.style.backgroundColor = "lightblack";
     console.log("Usman Bhai: Version 1.4 Check!");
 })();
