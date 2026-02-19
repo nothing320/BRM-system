@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Usman Pro - Permanent Icon Hider
+// @name         Usman Pro -Trade Terminal  Icon Hider
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Hides specific market icon permanently and stays linked to GitHub
 // @author       Usman
 // @match        *://*.metatrader5.com/*
