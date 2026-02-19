@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Usman Pro - Link Tes
+// @name         Usman Pro - Final Test
 // @namespace    http://tampermonkey.net/
 // @version      1.4
 // @description  Color Test for Update Logic
