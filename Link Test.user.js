@@ -15,5 +15,5 @@
     'use strict';
     // Test ke liye: Page ka background halka neela (light blue) ho jayega
     document.body.style.backgroundColor = "lightblack";
-    console.log("Usman Bhai: Version 1.4 Check!");
+    console.log("Usman Bhai: Version 1.6 Check!");
 })();
