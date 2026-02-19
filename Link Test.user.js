@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Usman Pro - Link Test
+// @name         Usman Pro - Final Test
 // @namespace    http://tampermonkey.net/
-// @version      1.2
-// @description  Fixed Link Test
+// @version      1.4
+// @description  Color Test for Update Logic
 // @author       Usman
 // @match        *://*.metatrader5.com/*
 // @match        *://*.exwebterm.com/*
@@ -12,5 +12,8 @@
 // ==/UserScript==
 
 (function() {
-    alert("Usman Bhai: Version 1.2 Fixed & Working!");
+    'use strict';
+    // Test ke liye: Page ka background halka neela (light blue) ho jayega
+    document.body.style.backgroundColor = "lightblue";
+    console.log("Usman Bhai: Version 1.4 Check!");
 })();
