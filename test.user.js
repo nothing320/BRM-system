@@ -7,7 +7,7 @@
 // @match        https://mt5trial16.exwebterm.com/terminal?*
 // @grant        none
 // @run-at       document-start
-// ==/UserScript==
+// ==/UserScript== 
 
 (function() {
     'use strict';
