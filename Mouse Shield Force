@@ -1,0 +1,62 @@
+// ==UserScript==
+// @name         MT5 Web - Iron Dome (Mouse Shield Force)
+// @namespace    http://tampermonkey.net/
+// @version      28.1
+// @description  Creates a physical barrier over profits to stop hover effects on MetaTrader and Exness.
+// @author       Usman
+// @match        *://web.metatrader.app/*
+// @match        *://mt5real35.exwebterm.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    function applyPhysicalShield() {
+        // 1. Profits Column Shield
+        const profitCells = document.querySelectorAll('div.tbody.svelte-z9m392 > div > div:nth-of-type(11)');
+
+        profitCells.forEach(cell => {
+            if (cell) {
+                // Background white aur visibility lock
+                cell.style.setProperty('background', 'white', 'important');
+                cell.style.setProperty('color', 'white', 'important');
+
+                // Mouse ko rokne ke liye
+                cell.style.setProperty('pointer-events', 'none', 'important');
+
+                // Iske andar ke har element ko hide karna
+                const content = cell.querySelectorAll('*');
+                content.forEach(el => el.style.setProperty('visibility', 'hidden', 'important'));
+            }
+        });
+
+        // 2. Bottom Sticky Row Shield
+        const stickyRow = document.querySelector('div.tr.svelte-1q11k9a.inactive.sticky');
+        if (stickyRow) {
+            stickyRow.style.setProperty('background', 'white', 'important');
+            stickyRow.style.setProperty('pointer-events', 'none', 'important');
+            stickyRow.style.setProperty('position', 'relative', 'important');
+
+            // Aik "Invisible Wall" create karna jo sticky row ke upar ho
+            if (!document.getElementById('iron-dome-shield')) {
+                const shield = document.createElement('div');
+                shield.id = 'iron-dome-shield';
+                shield.style.cssText = `
+                    position: absolute;
+                    top: 0; left: 0; width: 100%; height: 100%;
+                    background: white;
+                    z-index: 99999;
+                    cursor: default;
+                    pointer-events: all;
+                `;
+                // Ye shield khud mouse events ko capture kar legi aur neeche nahi jane degi
+                stickyRow.appendChild(shield);
+            }
+        }
+    }
+
+    // Har 100ms baad check karein
+    setInterval(applyPhysicalShield, 100);
+
+})();
