@@ -1,0 +1,99 @@
+// ==UserScript==
+// @name         Limit Order - Locked
+// @namespace    http://tampermonkey.net/
+// @version      1.1
+// @description  Permanently locks the specific select element and shows "BRM LOCKED"
+// @author       Usman
+// @match        *://mt5real35.exwebterm.com/*
+// @match        *://*/*terminal*
+// @grant        none
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    const targetSelector = 'body > div.layout.svelte-vce879 > div.left-panel.svelte-nipgo6 > div.layout.svelte-b7mtja.right > div.wrap.svelte-nipgo6 > div.wrapper.svelte-1mnv5a8 > div.header.svelte-1mnv5a8 > div.main-select.svelte-1mnv5a8 > div.select-wrapper.svelte-1jw7y3y.header > select.svelte-1jw7y3y';
+
+    function lockAndLabel() {
+        const element = document.querySelector(targetSelector);
+
+        if (element) {
+            // 1. Interaction block karein
+            element.style.pointerEvents = "none";
+            if (!element.disabled) {
+                element.disabled = true;
+            }
+
+            // 2. Text change karein "SRM LOCKED"
+            // Select element mein text change karne ke liye option create karke insert karna parrta hai
+            if (element.options.length > 0) {
+                if (element.options[0].text !== "SRM LOCKED") {
+                    element.options[0].text = "SRM LOCKED";
+                    element.value = element.options[0].value;
+                }
+            }
+
+            // 3. UI Styling
+            element.style.opacity = "0.6";
+            element.style.filter = "grayscale(100%)";
+            element.style.backgroundColor = "#1a1a1a";
+            element.style.color = "#ff4d4d"; // Red color for 'LOCKED' feel
+            element.style.fontWeight = "bold";
+            element.style.textAlign = "center";
+        }
+    }
+
+    // Har 100ms baad check karega
+    setInterval(lockAndLabel, 100);
+
+})();// ==UserScript==
+// @name         Limit Order - Locked
+// @namespace    http://tampermonkey.net/
+// @version      1.1
+// @description  Permanently locks the specific select element and shows "BRM LOCKED"
+// @author       Usman
+// @match        *://mt5real35.exwebterm.com/*
+// @match        *://*/*terminal*
+// @grant        none
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    const targetSelector = 'body > div.layout.svelte-vce879 > div.left-panel.svelte-nipgo6 > div.layout.svelte-b7mtja.right > div.wrap.svelte-nipgo6 > div.wrapper.svelte-1mnv5a8 > div.header.svelte-1mnv5a8 > div.main-select.svelte-1mnv5a8 > div.select-wrapper.svelte-1jw7y3y.header > select.svelte-1jw7y3y';
+
+    function lockAndLabel() {
+        const element = document.querySelector(targetSelector);
+
+        if (element) {
+            // 1. Interaction block karein
+            element.style.pointerEvents = "none";
+            if (!element.disabled) {
+                element.disabled = true;
+            }
+
+            // 2. Text change karein "SRM LOCKED"
+            // Select element mein text change karne ke liye option create karke insert karna parrta hai
+            if (element.options.length > 0) {
+                if (element.options[0].text !== "SRM LOCKED") {
+                    element.options[0].text = "SRM LOCKED";
+                    element.value = element.options[0].value;
+                }
+            }
+
+            // 3. UI Styling
+            element.style.opacity = "0.6";
+            element.style.filter = "grayscale(100%)";
+            element.style.backgroundColor = "#1a1a1a";
+            element.style.color = "#ff4d4d"; // Red color for 'LOCKED' feel
+            element.style.fontWeight = "bold";
+            element.style.textAlign = "center";
+        }
+    }
+
+    // Har 100ms baad check karega
+    setInterval(lockAndLabel, 100);
+
+})();
