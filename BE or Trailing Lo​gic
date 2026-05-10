@@ -1,0 +1,103 @@
+// ==UserScript==
+// @name         MT5 Web - BE or Trailing Lo​gic (Exness Supported)
+// @namespace    http://tampermonkey.net/
+// @version      14.1
+// @description  Strict comparison for Buy/Sell to ensure logic always applies on MetaTrader and Exness.
+// @author       Usman
+// @match        *://web.metatrader.app/*
+// @match        *://mt5real35.exwebterm.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    let originalSL = null;
+    let originalTP = null;
+    let isBuy = null;
+
+    function getElements() {
+        const btn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('Modify'));
+        const sl = document.querySelector('div.sl input');
+        const tp = document.querySelector('div.tp input');
+        // Buy/Sell detection based on your specific selectors
+        const sellMark = document.querySelector('button.trade-button.red');
+        const buyMark = document.querySelector('div.footer-row button:nth-of-type(2)');
+
+        return { btn, sl, tp, sellMark, buyMark };
+    }
+
+    function enforceDiscipline() {
+        const el = getElements();
+
+        if (el.btn && el.sl && el.tp) {
+            // 1. First Time Window Open - Capture State
+            if (originalSL === null) {
+                originalSL = parseFloat(el.sl.value);
+                originalTP = parseFloat(el.tp.value);
+
+                // Direct Detection
+                if (el.sellMark) {
+                    isBuy = false;
+                } else if (el.buyMark) {
+                    isBuy = true;
+                } else {
+                    // Math Fallback (Sell SL is always above TP)
+                    isBuy = originalSL < originalTP;
+                }
+                console.log(`Iron Dome: Mode ${isBuy ? 'BUY' : 'SELL'} | Initial SL: ${originalSL} TP: ${originalTP}`);
+            }
+
+            // 2. Real-time Values
+            let currentSL = parseFloat(el.sl.value);
+            let currentTP = parseFloat(el.tp.value);
+
+            let violation = false;
+
+            // 3. THE LOGIC (SL cannot be moved backwards)
+            if (isBuy === true) {
+                // BUY TRADE: Violation if current < original (moving SL down is bad)
+                if (currentSL < originalSL || currentTP < originalTP) {
+                    violation = true;
+                }
+            }
+            else if (isBuy === false) {
+                // SELL TRADE: Violation if current > original (moving SL up is bad)
+                if (currentSL > originalSL || currentTP > originalTP) {
+                     violation = true;
+                }
+            }
+
+            // 4. THE ACTION
+            if (violation) {
+                el.btn.style.setProperty('pointer-events', 'none', 'important');
+                el.btn.style.setProperty('opacity', '0.2', 'important');
+                el.btn.style.setProperty('filter', 'grayscale(100%)', 'important');
+
+                // Visual Indicator for Usman
+                if (isBuy) {
+                   if (currentSL < originalSL) el.sl.style.background = '#ffd6d6';
+                   if (currentTP < originalTP) el.tp.style.background = '#ffd6d6';
+                } else {
+                   if (currentSL > originalSL) el.sl.style.background = '#ffd6d6';
+                   if (currentTP > originalTP) el.tp.style.background = '#ffd6d6';
+                }
+            } else {
+                el.btn.style.setProperty('pointer-events', 'auto', 'important');
+                el.btn.style.setProperty('opacity', '1', 'important');
+                el.btn.style.setProperty('filter', 'none', 'important');
+                el.sl.style.background = '';
+                el.tp.style.background = '';
+            }
+        } else {
+            // Clear memory when window is closed
+            originalSL = null;
+            originalTP = null;
+            isBuy = null;
+        }
+    }
+
+    // Checking every 200ms
+    setInterval(enforceDiscipline, 200);
+
+})();
