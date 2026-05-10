@@ -1,0 +1,47 @@
+// ==UserScript==
+// @name         MT5 Web - Iron Dome (Full Sticky Row White-Out)
+// @namespace    http://tampermonkey.net/
+// @version      27.1
+// @description  Completely whites out the entire bottom summary row on MetaTrader and Exness.
+// @author       Usman
+// @match        *://web.metatrader.app/*
+// @match        *://mt5real35.exwebterm.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    function ultraWhiteOut() {
+        // 1. Aapka specific selector for the FULL STICKY ROW
+        const stickyRow = document.querySelector('div.tr.svelte-1q11k9a.inactive.sticky');
+
+        if (stickyRow) {
+            // Poori row ko white block bana dena
+            stickyRow.style.setProperty('background', 'white', 'important');
+            stickyRow.style.setProperty('color', 'white', 'important');
+            stickyRow.style.setProperty('pointer-events', 'none', 'important');
+
+            // Andar ke tamam text aur numbers ko gayab karna
+            const allText = stickyRow.querySelectorAll('*');
+            allText.forEach(el => {
+                el.style.setProperty('visibility', 'hidden', 'important');
+                el.style.setProperty('pointer-events', 'none', 'important');
+            });
+        }
+
+        // 2. Individual Trade Profits (jo rows mein hain) unko bhi white rakhte hain
+        const rowProfits = document.querySelectorAll('div.tbody.svelte-z9m392 > div > div:nth-of-type(11) > div');
+        rowProfits.forEach(profit => {
+            if (profit) {
+                profit.style.setProperty('background', 'white', 'important');
+                profit.style.setProperty('color', 'white', 'important');
+                profit.style.setProperty('pointer-events', 'none', 'important');
+            }
+        });
+    }
+
+    // Tez execution taake UI load hotay hi white-out ho jaye
+    setInterval(ultraWhiteOut, 100);
+
+})();
