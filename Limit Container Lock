@@ -1,0 +1,45 @@
+// ==UserScript==
+// @name         MT5 Web - (Limit Container Lock)
+// @namespace    http://tampermonkey.net/
+// @version      15.6
+// @description  Completely freezes the SL/TP limit container on MetaTrader and Exness.
+// @author       Usman
+// @match        *://web.metatrader.app/*
+// @match        *://mt5real35.exwebterm.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    function freezeLimitContainer() {
+        // Pura SL/TP container jo aap ne specify kiya
+        const limitContainer = document.querySelector('div.layout.svelte-b7mtja.right div.form.modify-form div.limit.svelte-101s49e');
+
+        if (limitContainer) {
+            // 1. Pura section click-proof bana dena
+            limitContainer.style.setProperty('pointer-events', 'none', 'important');
+
+            // 2. Visual lock (Grey out effect)
+            limitContainer.style.setProperty('filter', 'grayscale(100%) contrast(0.8)', 'important');
+            limitContainer.style.setProperty('opacity', '0.6', 'important');
+
+            // 3. User focus block karna (Keyboard access)
+            limitContainer.style.setProperty('user-select', 'none', 'important');
+
+            // 4. Cursor style change
+            limitContainer.style.setProperty('cursor', 'not-allowed', 'important');
+
+            // Container ke andar jitne inputs hain unhe bhi read-only kar dete hain extra safety ke liye
+            const inputs = limitContainer.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.readOnly = true;
+                input.setAttribute('tabindex', '-1');
+            });
+        }
+    }
+
+    // 100ms interval taake UI update hotay hi lock apply ho jaye
+    setInterval(freezeLimitContainer, 100);
+
+})();
