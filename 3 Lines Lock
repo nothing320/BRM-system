@@ -1,0 +1,32 @@
+// ==UserScript==
+// @name         MT5 Web - 3 Lines Lock
+// @namespace    http://tampermonkey.net/
+// @version      16.1
+// @description  Hides the 1-Click Trading menu icon on MetaTrader and Exness.
+// @author       Usman
+// @match        *://web.metatrader.app/*
+// @match        *://mt5real35.exwebterm.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    function hideOneClickMenu() {
+        // Aapka specific selector for the 3-lines/Menu icon button
+        const oneClickIcon = document.querySelector('div.top-bar.svelte-o9wxvh div.menu.svelte-aqy1pm div.icon-button.svelte-1iwf8ix');
+
+        if (oneClickIcon) {
+            // 1. Bilkul remove kar dena UI se
+            oneClickIcon.style.setProperty('display', 'none', 'important');
+
+            // 2. Safety lock (agar display block na ho paye)
+            oneClickIcon.style.setProperty('visibility', 'hidden', 'important');
+            oneClickIcon.style.setProperty('pointer-events', 'none', 'important');
+        }
+    }
+
+    // Har 200ms baad check karega (MT5 UI updates ke liye)
+    setInterval(hideOneClickMenu, 200);
+
+})();
