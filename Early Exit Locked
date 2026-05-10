@@ -1,0 +1,38 @@
+// ==UserScript==
+// @name         MT5 Web - Iron Dome (Early Exit Locked)
+// @namespace    http://tampermonkey.net/
+// @version      15.1
+// @description  Disables the orange Close/Exit button on MetaTrader and Exness.
+// @author       Usman
+// @match        *://web.metatrader.app/*
+// @match        *://mt5real35.exwebterm.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    function lockEarlyExit() {
+        // Aapka specific selector for the Orange Exit/Close button
+        const closeBtn = document.querySelector('button.trade-button.svelte-ailjot.orange');
+
+        if (closeBtn) {
+            // 1. Click disable karna
+            closeBtn.style.setProperty('pointer-events', 'none', 'important');
+
+            // 2. Visual appearance change karna (Grey/Locked look)
+            closeBtn.style.setProperty('filter', 'grayscale(100%)', 'important');
+            closeBtn.style.setProperty('opacity', '0.4', 'important');
+            closeBtn.style.setProperty('cursor', 'not-allowed', 'important');
+
+            // 3. Text change (Optional: Visual reminder for discipline)
+            if (closeBtn.innerText !== "EXIT LOCKED") {
+                closeBtn.innerText = "EXIT LOCKED";
+            }
+        }
+    }
+
+    // Har 200ms baad check karega taake agar button naya render ho toh foran lock ho jaye
+    setInterval(lockEarlyExit, 200);
+
+})();
