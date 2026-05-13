@@ -1,0 +1,76 @@
+// ==UserScript==
+// @name         Permanent Trading Discipline Lock
+// @namespace    http://tampermonkey.net/
+// @version      1.2
+// @description  Permanent blur and minimalist discipline popup (No unlock)
+// @author       Gemini
+// @match        https://mt5real35.exwebterm.com/terminal*
+// @grant        none
+// @run-at       document-idle
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+        #discipline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px) grayscale(100%);
+            -webkit-backdrop-filter: blur(20px) grayscale(100%);
+            z-index: 9999999 !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: all;
+        }
+
+        .minimal-popup {
+            background: #ffffff;
+            padding: 50px;
+            border: 1px solid #000;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+        }
+
+        .minimal-popup h1 {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #000;
+            margin: 0 0 20px 0;
+            font-size: 24px;
+        }
+
+        .minimal-popup p {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            font-size: 16px;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        /* Terminal interactions block karne ke liye */
+        body {
+            overflow: hidden !important;
+        }
+    `;
+    document.head.appendChild(style);
+
+    const overlay = document.createElement('div');
+    overlay.id = 'discipline-overlay';
+    overlay.innerHTML = `
+        <div class="minimal-popup">
+            <h1>BE A DISCIPLINED TRADER</h1>
+            <p>Collect backtested data to enter the last stage of trading.</p>
+        </div>
+    `;
+
+    // Ensure it stays on top
+    document.body.appendChild(overlay);
+
+})();
