@@ -1,0 +1,10 @@
+echo '
+# Discipline Lock Script
+current_date=$(curl -s http://worldtimeapi.org/api/timezone/Etc/UTC | grep -oP "(?<=datetime\":\" )[0-9-]+" || date +%Y-%m-%d)
+target_date="2026-05-15"
+
+if [[ "$current_date" < "$target_date" ]]; then
+    echo "LOCKED UNTIL 15 MAY: FOCUS ON BACKTESTING DATA."
+    sleep 3
+    exit
+fi' >> ~/.bashrc
