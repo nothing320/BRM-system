@@ -1,0 +1,52 @@
+// ==UserScript==
+// @name         Impulse Armor - FundingPips Fix
+// @namespace    http://tampermonkey.net/
+// @version      1.1
+// @description  Robust hide/blur for FundingPips MT5 login form content
+// @author       Usman (Impulse Armor)
+// @match        https://mt5-sim1.fundingpips.com/*
+// @grant        none
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Flexible Selectors jo svelte hash badalne par bhi tootenge nahi
+    const fallbackSelectors = [
+        'div.wrap-connect form.form > div.content', // Form ke andar ka content div
+        'form[class*="form"] > div[class*="content"]', // Dynamic class generic match
+        'div[class*="wrap-connect"] form div[class*="content"]' 
+    ];
+
+    function applyImpulseArmor() {
+        for (let selector of fallbackSelectors) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(element => {
+                // --- OPTION 1: HIDE (Abhi Yeh Active Hai) ---
+                element.style.setProperty('display', 'none', 'important');
+
+                // --- OPTION 2: BLUR (Agar blur chahiye to upar wali line par // lagao aur niche wale se // hatao) ---
+                // element.style.setProperty('filter', 'blur(12px)', 'important');
+                // element.style.setProperty('pointer-events', 'none', 'important');
+            });
+        }
+    }
+
+    // Har 100ms par check karega jab tak page fully interactive nahi ho jata
+    const intervalId = setInterval(applyImpulseArmor, 100);
+
+    // Baki runtime mutations ko catch karne ke liye Observer
+    const observer = new MutationObserver(() => {
+        applyImpulseArmor();
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+        attributes: true
+    });
+
+    // 10 seconds baad interval clear kar denge taaki performance par load na pade
+    setTimeout(() => clearInterval(intervalId), 10000);
+})();
