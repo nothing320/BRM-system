@@ -1,0 +1,39 @@
+// ==UserScript==
+// @namespace    http://tampermonkey.net/
+// @version      1.0
+// @description  Hides the specific button to maintain trading discipline.
+// @author       Usman
+// @match        https://app.fundingpips.com/accounts/20055864*
+// @grant        none
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Function to find and hide the button
+    const hideButton = () => {
+        const selector = "body > div.flex.h-full.flex-col > div.flex.flex-1.overflow-hidden > main > div > div.flex.h-full.min-h-0.flex-1.overflow-hidden > div:nth-of-type(1) > div.min-h-0.flex-1.overflow-y-auto > div > div.flex.flex-col.gap-4 > div > div:nth-of-type(2) > button:nth-of-type(2)";
+        const button = document.querySelector(selector);
+        
+        if (button) {
+            button.style.display = 'none';
+            // Optional: completely remove it from DOM for extra safety
+            // button.remove(); 
+        }
+    };
+
+    // MutationObserver taake agar page dynamic load ho, tab bhi button hide ho jaye
+    const observer = new MutationObserver((mutations, obs) => {
+        hideButton();
+    });
+
+    // Page load hone par check karega aur DOM changes ko monitor karega
+    window.addEventListener('DOMContentLoaded', () => {
+        hideButton();
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+})();
